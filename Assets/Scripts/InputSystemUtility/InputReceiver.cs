@@ -10,7 +10,7 @@ namespace InputSystemUtility
     /// </summary>
     public abstract class InputReceiver : MonoBehaviour
     {
-        private void Start()
+        protected virtual void Start()
         {
             // インプットイベントを受け取る
             EnhancedTouchManager.Instance.OnFingerDown.Subscribe(OnFingerDown).AddTo(this);
