@@ -1,7 +1,7 @@
 using LitJson;
 using UnityEngine;
 
-namespace ChartFile.Test
+namespace Chart.Test
 {
     /// <summary>
     ///     作成したモデルクラスが正しく動作していることを確認するためのクラス
@@ -10,17 +10,32 @@ namespace ChartFile.Test
     {
         private void Start()
         {
-            // jsonファイルを読み込み
-            var chartText = Resources.Load<TextAsset>("Songs/SampleAudio/chart_sample/60bpm");
+            LoadAllTest();
+            LoadByIdTest();
+        }
 
-            // jsonデータをデシリアライズ
-            var chart = JsonMapper.ToObject<ChartData>(chartText.text);
+        private void LoadAllTest()
+        {
+            Debug.Log("-----------LoadAllTest-----------");
 
-            // 再度jsonデータにシリアライズ
-            var json = JsonMapper.ToJson(chart);
+            var charts = ChartDataUtility.GetAllChartData();
+            foreach (var chart in charts)
+            {
+                Debug.Log($"id={chart.SongId} の楽曲名は {chart.name} です");
+            }
+            
+            Debug.Log("----------------------------------");
+        }
+        
+        
+        private void LoadByIdTest()
+        {
+            Debug.Log("-----------LoadByIdTest-----------");
 
-            // ログ出力
-            Debug.Log(json);
+            var chart = ChartDataUtility.GetChartById(0).GetChartData();
+            Debug.Log(JsonMapper.ToJson(chart));
+            
+            Debug.Log("----------------------------------");
         }
     }
 }

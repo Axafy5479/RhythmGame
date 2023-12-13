@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 
-namespace ChartFile
+namespace Chart
 {
     /// <summary>
     /// 譜面ファイル.jsonの情報を利用ためのDTOクラス
@@ -19,7 +20,8 @@ namespace ChartFile
         /// <summary>
         /// 譜面ファイル.jsonをデシリアライズしたインスタンスのキャッシュ
         /// </summary>
-        private ChartData ChartDataCache { get; set; }
+        [NonSerialized]
+        private ChartData chartDataCache;
 
         /// <summary>
         /// 楽曲に付与されるId
@@ -38,7 +40,7 @@ namespace ChartFile
         /// <returns></returns>
         public ChartData GetChartData()
         {
-            return ChartDataCache ??= JsonMapper.ToObject<ChartData>(chartFile.text);
+            return chartDataCache ??= JsonMapper.ToObject<ChartData>(chartFile.text);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace ChartFile
+namespace Chart
 {
     /// <summary>
     /// 譜面データを取得するためのUtilityクラス
@@ -26,7 +26,7 @@ namespace ChartFile
         /// <returns></returns>
         public static List<ChartDTO> GetAllChartData()
         {
-            return Resources.LoadAll<ChartDTO>("Songs/chart_sample").ToList();
+            return Resources.LoadAll<ChartDTO>("Songs/Models").ToList();
         }
     }
 }

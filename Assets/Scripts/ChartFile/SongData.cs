@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ChartFile
+namespace Chart
 {
     /// <summary>
     ///     楽曲の情報をまとめたモデルクラス

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ChartFile
+namespace Chart
 {
     /// <summary>
     ///     ノートの挙動を表現するパラメーターを保持するモデルクラス

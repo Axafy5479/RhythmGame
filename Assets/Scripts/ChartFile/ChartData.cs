@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ChartFile
+namespace Chart
 {
     /// <summary>
     ///     楽曲情報と、難易度ごとの難易度ごとの譜面を保持するモデルクラス
@@ -45,7 +45,7 @@ namespace ChartFile
         ///     一般に楽曲のBPMは途中で変化する。
         ///     いつ、どの値に変化をするかを表すリスト
         /// </summary>
-        public List<BPMInfo> bpms;
+        public List<BPMData> bpms;
 
         /// <summary>
         ///     譜面データ
@@ -57,7 +57,7 @@ namespace ChartFile
         ///     難易度ごとのbpm変化情報
         ///     (上に定義したbpmフィールドの内容を、難易度別に定義した場合に使用する)
         /// </summary>
-        public BPMInfo[][] splitBpms;
+        public BPMData[][] splitBpms;
 
         ////////////////////////////////////////////////////////
         ///// jsonファイルには存在するが、使用予定のないフィールド /////
