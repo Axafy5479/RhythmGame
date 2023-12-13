@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6c557cd4434446cbb4808dfb25dfbb0, type: 3}
   m_Name: 60bpm
   m_EditorClassIdentifier: 
-  songId: 0
-  chartFile: {fileID: 0}
-  audioClip: {fileID: 0}
+  songId: 1
+  chartFile: {fileID: 4900000, guid: b48000180728143ba865f98d2902490e, type: 3}
+  audioClip: {fileID: 8300000, guid: 4f7c32f4fda604764a2c9898eb86442d, type: 3}
