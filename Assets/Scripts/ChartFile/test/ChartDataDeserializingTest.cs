@@ -11,7 +11,7 @@ namespace ChartFile.Test
         private void Start()
         {
             // jsonファイルを読み込み
-            var chartText = Resources.Load<TextAsset>("Songs/chart_sample/chart_sample");
+            var chartText = Resources.Load<TextAsset>("Songs/SampleAudio/chart_sample/60bpm");
 
             // jsonデータをデシリアライズ
             var chart = JsonMapper.ToObject<ChartData>(chartText.text);
