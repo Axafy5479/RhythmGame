@@ -1,90 +1,67 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+using UniRx;
 using UnityEngine.InputSystem.EnhancedTouch;
 using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 namespace InputSystemUtility
 {
-    public class EnhancedTouchManager : MonoBehaviour
+    public class EnhancedTouchManager : MonoSingleton<EnhancedTouchManager>
     {
-        #region MonoSingleton
+        /********************* 通知用プロパティ ***********************/
+        /// <summary>
+        /// 指が触れたことを通知
+        /// </summary>
+        public IObservable<Finger> OnFingerDown => onFingerDown;
+        private Subject<Finger> onFingerDown { get; } = new();
 
-        private static EnhancedTouchManager instance;
+        /// <summary>
+        /// 指が動かされたことを通知
+        /// </summary>
+        public IObservable<Finger> OnFingerMove => onFingerMove;
+        private Subject<Finger> onFingerMove { get; } = new();
 
-        public static EnhancedTouchManager Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    var instances = FindObjectsOfType<EnhancedTouchManager>();
-                    instance = instances.Length switch
-                    {
-                        0 => instance = new GameObject().AddComponent<EnhancedTouchManager>(),
-                        1 => instances[0],
-                        _ => throw new Exception("シーン上にTouchInputHandlerが複数存在します")
-                    };
+        /// <summary>
+        /// 指が離されたことを通知
+        /// </summary>
+        public IObservable<Finger> OnFingerUp => onFingerUp;
+        private readonly Subject<Finger> onFingerUp = new();
+        /*************************************************************/
 
-                }
+        
+        
+        
+        
+        
+        /******** EnhancedTouchのTouchイベントに追加するデリゲート *********/
+        private void onDownAction(Finger f) => onFingerDown.OnNext(f);
+        private void onMoveAction(Finger f) => onFingerMove.OnNext(f);
+        private void onUpAction(Finger f) => onFingerUp.OnNext(f);
+        /*************************************************************/
 
-                return instance;
-            }
-        }
-
-        #endregion
-
-        private HashSet<IPointerEventReceiver> EventReceivers { get; } = new();
-
+        
+        
+        /// <summary>
+        /// EnhancedTouchを有効にし、
+        /// Touchイベントに通知を発行するアクションを登録
+        /// </summary>
         private void Start()
         {
-            // EnhancedTouchの有効化
             EnhancedTouchSupport.Enable();
-
-            EnhancedTouch.onFingerDown += OnFingerDown;
-            EnhancedTouch.onFingerMove += OnFingerMove;
-            EnhancedTouch.onFingerUp += OnFingerUp;
+            Touch.onFingerDown += onDownAction;
+            Touch.onFingerMove += onMoveAction;
+            Touch.onFingerUp += onUpAction;
         }
 
-        private void OnFingerDown(Finger finger)
+        /// <summary>
+        /// EnhancedTouchを無効にし、
+        /// Touchイベントに通知を発行するアクションを除去
+        /// </summary>
+        protected override void BeforeOnDestroy()
         {
-            foreach (var receiver in EventReceivers)
-            {
-                receiver.OnPointerDown(finger.lastTouch);
-            }
-        }
-        
-        private void OnFingerMove(Finger finger)
-        {
-            foreach (var receiver in EventReceivers)
-            {
-                receiver.OnPointerMove(finger.lastTouch);
-            }
-        }
-        
-        private void OnFingerUp(Finger finger)
-        {
-            foreach (var receiver in EventReceivers)
-            {
-                receiver.OnPointerUp(finger.lastTouch);
-            }
-        }
-
-        public bool EndReceiving(IPointerEventReceiver receiver)
-        {
-            return EventReceivers.Remove(receiver);
-        }
-
-        public void AddReceiver(IPointerEventReceiver receiver)
-        {
-            EventReceivers.Add(receiver);
-        }
-
-        private void OnDestroy()
-        {
-            EnhancedTouch.onFingerDown -= OnFingerDown;
-            EnhancedTouch.onFingerMove -= OnFingerMove;
-            EnhancedTouch.onFingerUp -= OnFingerUp;
+            EnhancedTouch.onFingerDown -= onDownAction;
+            EnhancedTouch.onFingerMove -= onMoveAction;
+            EnhancedTouch.onFingerUp -= onUpAction;
             EnhancedTouchSupport.Disable();
             
         }
