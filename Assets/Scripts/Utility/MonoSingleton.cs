@@ -26,8 +26,8 @@ public abstract class MonoSingleton<T> :MonoBehaviour where T: MonoSingleton<T>
                     // 見つけたTのインスタンスの数で場合わけ
                     instance = instances.Length switch
                     {
-                        // インスタンスが存在しない場合、Resources内のプレハブを探す
-                        0 => throw new Exception($"{typeof(T)}のインスタンスがシーン上に存在しません。"),
+                        // インスタンスが存在しない場合、コンポーネントを作成
+                        0 => new GameObject(typeof(T).ToString()).AddComponent<T>(),
                         
                         // 唯一である場合、それを返す
                         1 => instances[0],
