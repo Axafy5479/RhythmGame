@@ -11,15 +11,35 @@ namespace ChartFile
     public class SongData
     {
         /// <summary>
-        ///     曲名
+        ///     曲名 (ファイル名ではなく、自分で設定した名前)
         /// </summary>
         public string title;
 
+        /// <summary>
+        ///     オーディオファイル名 (拡張子つき)
+        /// </summary>
+        public string music;
+        
+        /// <summary>
+        /// サブタイトル
+        /// </summary>
+        public string subtitle;
+        
         /// <summary>
         ///     作曲者名
         /// </summary>
         public string artist;
 
+        /// <summary>
+        ///     楽曲の説明
+        /// </summary>
+        public string description;
+        
+        /// <summary>
+        ///     譜面作成者
+        /// </summary>
+        public string credit;
+        
         /// <summary>
         ///     曲選択時に表示する画像
         ///     必ずこのファイルと同じディレクトリに保存すること

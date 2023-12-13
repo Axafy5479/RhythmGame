@@ -11,8 +11,7 @@ namespace ChartFile
     public class ChartData
     {
         /// <summary>
-        ///     楽曲ファイル名。
-        ///     必ず譜面ファイルと同じディレクトリに配置する
+        ///     楽曲ファイル名 (拡張子なし)
         /// </summary>
         public string name;
 
