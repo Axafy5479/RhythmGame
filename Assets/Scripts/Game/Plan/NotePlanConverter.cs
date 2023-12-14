@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Chart;
 
 namespace Game.Plan
@@ -8,14 +7,28 @@ namespace Game.Plan
     {
         public NotePlanConverter(ChartDTO chartData, Course course)
         {
+            // 指定のコースの譜面を取得
             var chart = chartData.GetChartData();
             AllNoteData = chart.notes[(int)course];
-            Bpms.Add(new BPMData { bpm = chart.bpm, num = 0, lpb = -1 });
+
+            // BPMの変化 (ChartData.bpms) の0番目に、初期のBPMを挿入する
+            Bpms.Add(new BPMData { bpm = chart.bpm, num = 0, lpb = 1 });
             Bpms.AddRange(chartData.GetChartData().bpms);
         }
 
+        /// <summary>
+        ///     ノーツIdを生成するクラス
+        /// </summary>
         public IdGenerator IdGenerator { get; } = new();
+
+        /// <summary>
+        ///     全ノーツのData
+        /// </summary>
         public NoteData[] AllNoteData { get; }
+
+        /// <summary>
+        ///     BPMの変化とそのタイミング
+        /// </summary>
         private List<BPMData> Bpms { get; } = new();
 
 
@@ -24,56 +37,39 @@ namespace Game.Plan
         ///     時刻ベースの情報に変換する
         /// </summary>
         /// <returns></returns>
-        public Dictionary<int, NotePlanBase> DataToPlan()
+        public Dictionary<int, NotePlan> DataToPlan()
         {
             // 変換後のインスタンスを保持する
             // noteId, Plan  のマップ
-            var noteMap = new Dictionary<int, NotePlanBase>();
+            var noteMap = new Dictionary<int, NotePlan>();
 
             // 譜面上の全てのノーツ情報ででループを回し、全て変換
             foreach (var note in AllNoteData)
             {
-                if (!note.notes.Any())
+                var parent = CreatePlan(note);
+
+                foreach (var child in note.notes)
                 {
-                    // 子ノーツがない = 通常のーつ
-
-                    // ノーツのタイミングを milli sec に変換
-                    var (time, bpm) = LPBtoMilliSec(note);
-
-                    // Planを生成
-                    var plan = new NormalNotePlan(IdGenerator.GetId(), time, bpm, note.block);
-
-                    // mapに挿入
-                    noteMap.Add(plan.NoteId, plan);
-                }
-                else
-                {
-                    // ロングノーツ
-
-                    // このロングノーツの中に存在する判定ポイント(節)の数をカウント
-                    var noteNumber = note.notes.Count + 1; // トップ + 子ノーツ
-
-                    // ノーツの数だけidを発行
-                    var ids = IdGenerator.GetIds(noteNumber);
-
-                    /***************** ロングtopノーツに関して変換 ***************/
-                    var (time, bpm) = LPBtoMilliSec(note);
-                    var headPlan = new LongHeadNotePlan(ids[0], ids[1..], time, note.block, bpm);
-                    noteMap.Add(headPlan.NoteId, headPlan);
-
-                    /************** ロング子ノーツに関して変換 *******************/
-                    for (var i = 0; i < note.notes.Count; i++)
-                    {
-                        var backNote = note.notes[i];
-                        var (childTime, childBpm) = LPBtoMilliSec(backNote);
-                        var backPlan = new LongBackNotePlan(ids[i + 1], ids[0], childTime, backNote.block, childBpm);
-                        noteMap.Add(backPlan.NoteId, backPlan);
-                    }
-                    /*********************************************************/
+                    var childPlan = CreatePlan(child);
+                    parent.SetChild(childPlan.NoteId);
+                    parent = childPlan;
                 }
             }
 
             return noteMap;
+
+            NotePlan CreatePlan(NoteData note)
+            {
+                // ノーツのタイミングを milli sec に変換
+                var (time, bpm) = LPBtoMilliSec(note);
+
+                // Planを生成
+                var notePlan = new NotePlan(IdGenerator.GetId(), time, note.block, bpm);
+
+                // マップに追加
+                noteMap.Add(notePlan.NoteId, notePlan);
+                return notePlan;
+            }
         }
 
         public (int time, float bpm) LPBtoMilliSec(NoteData noteData)

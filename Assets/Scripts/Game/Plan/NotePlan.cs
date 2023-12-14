@@ -5,14 +5,15 @@ namespace Game.Plan
     ///     譜面エディタ出力のNoteDataは時刻をlpb, numベースで表現しており、
     ///     ゲームを作り上げる上で使いにくい
     /// </summary>
-    public abstract class NotePlanBase
+    public class NotePlan
     {
-        public NotePlanBase(int noteId, int beatTime, int block, float bpm)
+        public NotePlan(int noteId, int beatTime, int block, float bpm)
         {
             BeatTime = beatTime;
             Block = block;
             LaunchTime = beatTime - (int)(240 * 1000 / bpm);
             NoteId = noteId;
+            Bpm = bpm;
         }
 
         /// <summary>
@@ -35,9 +36,29 @@ namespace Game.Plan
         /// </summary>
         public int Block { get; }
 
+        /// <summary>
+        ///     このノーツの判定時刻でのBPM
+        /// </summary>
+        public float Bpm { get; }
+
+        /// <summary>
+        ///     子ノーツのId
+        /// </summary>
+        public int? ChildNote { get; private set; }
+
+        /// <summary>
+        ///     子ノーツを設定する
+        /// </summary>
+        /// <param name="childId"></param>
+        public void SetChild(int childId)
+        {
+            ChildNote = childId;
+        }
+
         public override string ToString()
         {
-            return $"type:{GetType()} noteId:{NoteId} beatTime:{BeatTime} launchTime:{LaunchTime} block:{Block}";
+            return
+                $"noteId:{NoteId,4}\tbeatTime:{BeatTime,6}\tlaunchTime:{LaunchTime,6}\tblock:{Block}\tchildNote:{ChildNote,1}\tbpm:{Bpm}";
         }
     }
 }
