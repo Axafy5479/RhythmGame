@@ -67,3 +67,4 @@ public abstract class MonoSingleton<T> :MonoBehaviour where T: MonoSingleton<T>
         /// </summary>
         protected virtual void BeforeOnDestroy(){}
 }
+
