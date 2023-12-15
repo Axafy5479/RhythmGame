@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 namespace Game
@@ -10,6 +11,9 @@ namespace Game
     /// </summary>
     public class ResultManager : MonoSingleton<ResultManager>, INeedInitializing
     {
+        [SerializeField] private JudgeText judgeText;
+        [SerializeField] private TextMeshPro scoreText;
+        
         /// <summary>
         /// 全ノーツ数
         /// </summary>
@@ -77,6 +81,9 @@ namespace Game
             ResultMap[noteId].SetResult(judge,timeGap);
             
             Debug.Log(ResultMap[noteId]+"\tScore"+Score);
+            
+            judgeText.Show(judge);
+            scoreText.text = Score.ToString();
         }
 
         /// <summary>
