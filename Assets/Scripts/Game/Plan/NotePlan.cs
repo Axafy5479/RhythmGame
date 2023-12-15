@@ -43,13 +43,11 @@ namespace Game.Plan
 
         /// <summary>
         ///     子ノーツのPlan
-        ///     nullの時は通常のーつ
         /// </summary>
         public NotePlan ChildPlan { get; private set; }
-        
+
         /// <summary>
         ///     親ノーツのPlan
-        ///     nullの時は通常のーつ
         /// </summary>
         public NotePlan ParentPlan { get; private set; }
 
@@ -61,7 +59,7 @@ namespace Game.Plan
         {
             ChildPlan = childPlan;
         }
-        
+
         /// <summary>
         ///     親ノーツを設定する
         /// </summary>

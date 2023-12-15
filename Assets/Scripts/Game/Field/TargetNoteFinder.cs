@@ -1,21 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.EnhancedTouch;
 
 namespace Game
 {
     public static class TargetNoteFinder
     {
-         /// <summary>
-        /// 位置と時間的に最も適切なノーツを見つける
+        /// <summary>
+        ///     位置と時間的に最も適切なノーツを見つける
         /// </summary>
         /// <param name="finger"></param>
-        public static NoteController Find(HashSet<NoteController> controllersOnField,float posX, int beatTime)
+        public static NoteController Find(HashSet<NoteController> controllersOnField, float posX, int beatTime)
         {
-
             // 今回のタッチに対し、最適なターゲットを探し、この変数に代入していく
             NoteController target = null;
-            
+
             // 各ノーツに対し、判定対象として適切か否かを表す「Score」を計算する
             // 上記targetのScoreをここに保持する(値が小さいほどより適切)
             var minScore = float.MaxValue;
@@ -31,8 +29,8 @@ namespace Game
                 // あまりにもズレが大きい場合は無視する
                 var x_threshold = (Settings.Instance.NoteTapTolerance + 1) / 2;
                 var time_threshold = Settings.Instance.JudgeTime(JudgeEnum.Miss);
-                if(Mathf.Abs(gapPosX)>x_threshold || Mathf.Abs(gapTime)>time_threshold) continue;
-                
+                if (Mathf.Abs(gapPosX) > x_threshold || Mathf.Abs(gapTime) > time_threshold) continue;
+
                 // このノーツを判定すべきかを表すScoreを計算
                 var score = gapTime * gapTime + (float)(gapPosX * gapPosX * 0.25e6);
 

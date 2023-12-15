@@ -1,4 +1,3 @@
-using Game;
 using UniRx;
 using UniRx.Toolkit;
 using UnityEngine;
@@ -23,9 +22,9 @@ namespace Game
         {
             var prefab = Resources.Load<NoteController>("Game/note");
             var controller = Object.Instantiate(prefab, NoteParent);
-            
+
             // 自身をプールに返すメソッドを設定
-            controller.ReturnToPool = () => this.Return(controller);
+            controller.ReturnToPool = () => Return(controller);
             return controller;
         }
     }

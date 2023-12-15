@@ -8,14 +8,14 @@ namespace Game
     public class NoteController : MonoBehaviour
     {
         [SerializeField] private SpriteRenderer noteSprite;
-        
+
         private Transform trn;
 
         /// <summary>
-        /// NoteControllerの画像コンポーネント
+        ///     NoteControllerの画像コンポーネント
         /// </summary>
         public SpriteRenderer NoteSprite => noteSprite;
-        
+
         /// <summary>
         ///     NoteControllerのプロパティを集めたクラス
         ///     Poolに返された時、全てのプロパティをリセットする
@@ -48,6 +48,8 @@ namespace Game
                 return trn;
             }
         }
+
+        public Action ReturnToPool { get; set; }
 
         private void Update()
         {
@@ -110,7 +112,7 @@ namespace Game
         }
 
         /// <summary>
-        /// 見逃されたため、強制Miss
+        ///     見逃されたため、強制Miss
         /// </summary>
         public void Overlooked()
         {
@@ -136,7 +138,5 @@ namespace Game
             Properties.Clear(this);
             ReturnToPool();
         }
-        
-        public Action ReturnToPool { get; set; }
     }
 }
