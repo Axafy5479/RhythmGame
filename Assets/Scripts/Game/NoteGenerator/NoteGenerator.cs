@@ -35,25 +35,14 @@ namespace Game
             
             // LaunchTimeManagerの通知を購読
             var launchTime = GetComponent<LaunchTimeManager>();
-            launchTime.OnLaunchTime.Subscribe(Launch);
+            launchTime.OnLaunchTime.Subscribe(noteId=>Launch(NotePlanMap[noteId]));
         }
 
         /// <summary>
         /// LaunchTimeManagerの通知を受けて実行するメソッド
         /// </summary>
-        /// <param name="noteId"></param>
-        private void Launch(int noteId)
-        {
-
-            var plan = NotePlanMap[noteId];
-            while (plan!=null)
-            {
-                launch(plan);
-                plan = plan.ChildNote;
-            }
-        }
-
-        private void launch(NotePlan plan)
+        /// <param name="plan"></param>
+        private void Launch(NotePlan plan)
         {
             // プールからNoteControllerを取り出す
             var controller = noteControllerPool.Rent();
@@ -71,6 +60,9 @@ namespace Game
             // デバッグしやすいように、オブジェクトの名前としてPlanを設定
             controller.name = $"{plan}";
 #endif
+            
+            // 子ノーツがあれば、それも射出する
+            if(plan.ChildNote is { } childPlan) Launch(childPlan);
         }
     }
 }
