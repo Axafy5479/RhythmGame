@@ -52,6 +52,7 @@ namespace Game.Plan
                 {
                     var childPlan = CreatePlan(child);
                     parent.SetChild(childPlan);
+                    childPlan.SetParent(parent);
                     parent = childPlan;
                 }
             }

@@ -97,3 +97,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5976cf7f23d44a99cdd4e2611270d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noteSprite: {fileID: 1491252417119480135}

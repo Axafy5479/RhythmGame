@@ -36,5 +36,40 @@ public class Settings : ScriptableObject
     
     // スライドの判定に対し左右にそれぞれ　(noteSlideTolerance / 2) の許容範囲を作る
     public float NoteSlideTolerance => noteSlideTolerance;
-    [SerializeField] private float noteSlideTolerance = 1f; 
+    [SerializeField] private float noteSlideTolerance = 1f;
+
+    [SerializeField] private int perfectThreshold = 40;
+    [SerializeField] private int goodThreshold = 100;
+    [SerializeField] private int missThreshold = 150;
+
+    /// <summary>
+    /// 各判定の閾値を取得
+    /// </summary>
+    /// <param name="judge"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public int JudgeTime(JudgeEnum judge)
+    {
+        return judge switch
+        {
+            JudgeEnum.Perfect => perfectThreshold,
+            JudgeEnum.Good => goodThreshold,
+            JudgeEnum.Miss => missThreshold,
+            _ => throw new ArgumentOutOfRangeException(nameof(judge), judge, null)
+        };
+    }
+
+    /// <summary>
+    /// ズレ時間から判定を算出
+    /// </summary>
+    /// <param name="gapTime"></param>
+    /// <returns></returns>
+    public JudgeEnum GetJudge(int gapTime)
+    {
+        gapTime = Mathf.Abs(gapTime);
+        if (gapTime < perfectThreshold) return JudgeEnum.Perfect;
+        else if (gapTime < goodThreshold) return JudgeEnum.Good;
+        else if (gapTime < missThreshold) return JudgeEnum.Miss;
+        else return JudgeEnum.None;
+    }
 }
