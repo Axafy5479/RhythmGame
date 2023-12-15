@@ -33,9 +33,9 @@ namespace Game
         ///     現在の再生時刻を取得する
         /// </summary>
         /// <returns></returns>
-        public float GetTime()
+        public int GetTime()
         {
-            return audioSource.time;
+            return (int)(audioSource.time * 1000);
         }
 
         /// <summary>
