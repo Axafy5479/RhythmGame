@@ -1,3 +1,4 @@
+using System.Linq;
 using Game.Plan;
 using UnityEngine;
 using UnityEngine.InputSystem.EnhancedTouch;
@@ -83,6 +84,9 @@ namespace Game
         {
             // 指の追加
             Properties.Fingers.Add(finger);
+
+            // 今の状態がMoveStateではない場合、状態遷移はしない
+            if (Properties.State is not NoteController_Move) return;
 
             // 子ノーツの有無で場合わけ
             if (Properties.Plan.ChildNote != null)
