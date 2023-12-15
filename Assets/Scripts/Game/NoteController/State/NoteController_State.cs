@@ -2,15 +2,13 @@ namespace Game
 {
     public abstract class NoteController_State
     {
-        public NoteController_State(NoteController noteController)
-        {
-            Controller = noteController;
-        }
         
         protected NoteController Controller { get; }
 
-        public abstract void OnEnter();
+        public abstract void OnEnter(NoteController noteController, NoteController_State previousState);
 
-        public abstract void OnUpdate();
+        public abstract void OnUpdate(NoteController noteController);
+        
+        public abstract void OnExit(NoteController noteController,NoteController_State nextState);
     }
 }
