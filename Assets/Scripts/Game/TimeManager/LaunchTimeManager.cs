@@ -60,8 +60,13 @@ namespace Game
         /// <param name="info">ゲーム設定</param>
         public void Initialize(GameInfo info)
         {
+            // 射出時間とnoteIdのペアを作りたい
             List<(int time, int noteId)> timesToNotify =
-                info.GetPlanMap().Select(n => (n.Value.LaunchTime, n.Value.NoteId)).ToList();
+                info.GetPlanMap() // NoteId NotePlanの辞書
+                    .Select(pair=>pair.Value) // Valueだけ取り出す
+                    .Where(plan=>plan.ParentPlan==null)// 親を持たないノーツに限定
+                    .Select(n => (n.LaunchTime, n.NoteId))// time, id のペアに変換
+                    .ToList(); // Listに変換
 
             // 射出時間順に並べ替え
             timesToNotify.Sort((a, b) => a.time - b.time);

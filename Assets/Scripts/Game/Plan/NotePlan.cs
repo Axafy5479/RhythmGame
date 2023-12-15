@@ -45,21 +45,36 @@ namespace Game.Plan
         ///     子ノーツのPlan
         ///     nullの時は通常のーつ
         /// </summary>
-        public NotePlan ChildNote { get; private set; }
+        public NotePlan ChildPlan { get; private set; }
+        
+        /// <summary>
+        ///     親ノーツのPlan
+        ///     nullの時は通常のーつ
+        /// </summary>
+        public NotePlan ParentPlan { get; private set; }
 
         /// <summary>
         ///     子ノーツを設定する
         /// </summary>
-        /// <param name="childId"></param>
-        public void SetChild(NotePlan childId)
+        /// <param name="childPlan"></param>
+        public void SetChild(NotePlan childPlan)
         {
-            ChildNote = childId;
+            ChildPlan = childPlan;
+        }
+        
+        /// <summary>
+        ///     親ノーツを設定する
+        /// </summary>
+        /// <param name="parentPlan"></param>
+        public void SetParent(NotePlan parentPlan)
+        {
+            ParentPlan = parentPlan;
         }
 
         public override string ToString()
         {
             return
-                $"noteId:{NoteId,4}\tbeatTime:{BeatTime,6}\tlaunchTime:{LaunchTime,6}\tblock:{Block}\tchildNote:{ChildNote,1}\tbpm:{Bpm}";
+                $"noteId:{NoteId,4}\tbeatTime:{BeatTime,6}\tlaunchTime:{LaunchTime,6}\tblock:{Block}\tchildNote:{ChildPlan,1}\tbpm:{Bpm}";
         }
     }
 }

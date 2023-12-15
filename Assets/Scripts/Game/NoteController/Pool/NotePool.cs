@@ -22,7 +22,11 @@ namespace Game
         protected override NoteController CreateInstance()
         {
             var prefab = Resources.Load<NoteController>("Game/note");
-            return Object.Instantiate(prefab, NoteParent);
+            var controller = Object.Instantiate(prefab, NoteParent);
+            
+            // 自身をプールに返すメソッドを設定
+            controller.ReturnToPool = () => this.Return(controller);
+            return controller;
         }
     }
 }

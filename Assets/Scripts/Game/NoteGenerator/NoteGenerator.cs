@@ -56,13 +56,15 @@ namespace Game
             // 発射
             controller.Launch();
 
+            FieldNoteManager.Instance.ControllersOnField.Add(controller);
+
 #if UNITY_EDITOR
             // デバッグしやすいように、オブジェクトの名前としてPlanを設定
             controller.name = $"{plan}";
 #endif
 
             // 子ノーツがあれば、それも射出する
-            if (plan.ChildNote is { } childPlan) Launch(childPlan);
+            if (plan.ChildPlan is { } childPlan) Launch(childPlan);
         }
     }
 }

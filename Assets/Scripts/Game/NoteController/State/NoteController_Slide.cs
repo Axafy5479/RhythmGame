@@ -29,7 +29,7 @@ namespace Game
             var currentPos = noteController.Trn.position;
 
             // 子ノーツの振る舞い
-            var childPlan = noteController.Properties.Plan.ChildNote;
+            var childPlan = noteController.Properties.Plan.ChildPlan;
 
             // スライド開始時刻
             startTime = noteController.Properties.Plan.BeatTime;

@@ -1,3 +1,4 @@
+using System;
 using Game.Plan;
 using UnityEngine;
 using UnityEngine.InputSystem.EnhancedTouch;
@@ -6,8 +7,15 @@ namespace Game
 {
     public class NoteController : MonoBehaviour
     {
+        [SerializeField] private SpriteRenderer noteSprite;
+        
         private Transform trn;
 
+        /// <summary>
+        /// NoteControllerの画像コンポーネント
+        /// </summary>
+        public SpriteRenderer NoteSprite => noteSprite;
+        
         /// <summary>
         ///     NoteControllerのプロパティを集めたクラス
         ///     Poolに返された時、全てのプロパティをリセットする
@@ -88,7 +96,7 @@ namespace Game
             if (Properties.State is not NoteController_Move) return;
 
             // 子ノーツの有無で場合わけ
-            if (Properties.Plan.ChildNote != null)
+            if (Properties.Plan.ChildPlan != null)
             {
                 // 存在している時はスライド状態
                 Properties.ChangeState(this, MoveSlide);
@@ -99,6 +107,14 @@ namespace Game
                 OnReturn();
                 Debug.Log("デバッグのため、OnReturn");
             }
+        }
+
+        /// <summary>
+        /// 見逃されたため、強制Miss
+        /// </summary>
+        public void Overlooked()
+        {
+            OnReturn();
         }
 
         /// <summary>
@@ -118,6 +134,9 @@ namespace Game
         public void OnReturn()
         {
             Properties.Clear(this);
+            ReturnToPool();
         }
+        
+        public Action ReturnToPool { get; set; }
     }
 }
