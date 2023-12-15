@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noteTapTolerance: 0.6
   noteSlideTolerance: 1
+  perfectThreshold: 40
+  goodThreshold: 100
+  missThreshold: 150

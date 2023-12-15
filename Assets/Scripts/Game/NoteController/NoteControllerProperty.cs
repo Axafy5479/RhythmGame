@@ -17,12 +17,12 @@ namespace Game
         /// <summary>
         ///     このノーツが出した判定
         /// </summary>
-        public JudgeEnum Judge { get; set; }
+        public JudgeEnum Judge { get; private set; }
 
         /// <summary>
         ///     Beat時間のエラー
         /// </summary>
-        public int GapTime { get; set; } = int.MaxValue;
+        public int GapTime { get; private set; } = int.MaxValue;
 
         /// <summary>
         ///     このノーツの振る舞い
@@ -72,6 +72,22 @@ namespace Game
 
             // プロパティの更新
             State = newState;
+        }
+
+        public void SetJudge(Finger finger)
+        {
+            if (finger == null)
+            {
+                Judge = JudgeEnum.Miss;
+            }
+            else
+            {
+                int time = TimeCalculator.Instance.GetBeatTime(finger);
+                GapTime = Plan.BeatTime - time;
+                Judge = Settings.Instance.GetJudge(GapTime);
+            }
+
+            ResultManager.Instance.AddResult(Plan.NoteId,Judge,GapTime);
         }
 
 
