@@ -26,8 +26,8 @@ namespace Game
 
         public override void OnEnter(NoteController noteController, NoteController_State previousState)
         {
-            // 移動開始時刻は現在時刻
-            startTime = TimeCalculator.Instance.GetTime();
+            // 移動開始時刻はPlanのLaunchTime
+            startTime = noteController.Properties.Plan.LaunchTime;
 
             // 移動終了時刻はbeat時間
             goalTime = noteController.Properties.Plan.BeatTime;
