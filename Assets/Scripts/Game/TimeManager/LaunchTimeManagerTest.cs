@@ -26,7 +26,6 @@ namespace Game.Test
             var plan = new NotePlanConverter(chart, Course.EASY).DataToPlan();
 
             // timeManagerの初期化、購読
-            timeManager.Initialize(plan.Select(n => (n.Value.LaunchTime, n.Value.NoteId)).ToList());
             timeManager.OnLaunchTime.Subscribe(OnLaunch).AddTo(this);
             timeManager.OnAllNotesLaunched.Subscribe(_ => Debug.Log("全ノーツを射出し終えました")).AddTo(this);
 

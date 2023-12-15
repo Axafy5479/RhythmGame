@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using Chart;
+using Game.Plan;
 using UnityEngine;
 
 /// <summary>
@@ -11,7 +13,7 @@ using UnityEngine;
 [Serializable]
 public class GameInfo
 {
-    [SerializeField] private int musicId;
+    [SerializeField] private int musicId,blockNumber;
     [SerializeField] private Course course;
     [SerializeField] private bool isAuto, isTutorial;
 
@@ -51,11 +53,34 @@ public class GameInfo
     public bool IsTutorial => isTutorial;
 
     /// <summary>
+    /// レーン数
+    /// </summary>
+    public int BlockNumber => blockNumber;
+    
+    private Dictionary<int, NotePlan> NotePlanMap { get; set; }
+
+    /// <summary>
     ///     譜面を取得
     /// </summary>
     /// <returns></returns>
     public ChartDTO GetChart()
     {
         return ChartDataUtility.GetChartById(musicId);
+    }
+
+    /// <summary>
+    /// NotePlanのコレクションを取得する
+    /// </summary>
+    /// <returns></returns>
+    public Dictionary<int, NotePlan> GetPlanMap()
+    {
+        // キャッシュ
+        if (NotePlanMap == null)
+        {
+            var converter = new NotePlanConverter(GetChart(), Course);
+            NotePlanMap = converter.DataToPlan();
+        }
+
+        return NotePlanMap;
     }
 }
