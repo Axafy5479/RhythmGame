@@ -485,7 +485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sampleGameInfo:
-    musicId: 13
+    musicId: 12
     blockNumber: 4
     course: 0
     isAuto: 0

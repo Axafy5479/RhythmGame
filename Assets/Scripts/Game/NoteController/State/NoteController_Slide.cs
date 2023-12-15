@@ -88,14 +88,14 @@ namespace Game
             if (!fingerExist)
             {
                 // このノーツをホールドする指がないため、スライドStateを終了
-                noteController.OnSlideEnd();
+                noteController.Judged(false);
                 return;
             }
 
             if (currentTime > goalTime)
             {
                 // スライド終了時間に到達
-                noteController.OnSlideEnd();
+                noteController.Judged(false);
                 return;
             }
 
