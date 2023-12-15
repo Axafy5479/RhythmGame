@@ -1,11 +1,20 @@
+using UnityEngine;
+
 namespace Game
 {
     public class NoteController_Slide : NoteController_State
     {
+        private int startTime, goalTime;
+        private float initialPosZ;
+        private float goalPosZ = 0;
 
         public override void OnEnter(NoteController noteController, NoteController_State previousState)
         {
-            throw new System.NotImplementedException();
+            startTime = noteController.Properties.Plan.BeatTime;
+           // goalTime = noteController.Properties.Plan.ChildNote
+            var currentPos = noteController.Trn.position;
+            noteController.Trn.position = new Vector3(currentPos.x, currentPos.y, 0);
+            
         }
 
         public override void OnUpdate(NoteController noteController)

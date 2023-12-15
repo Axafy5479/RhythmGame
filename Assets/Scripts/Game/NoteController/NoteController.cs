@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Game.Plan;
@@ -54,7 +55,31 @@ namespace Game
             }
         }
 
+        public void Activated(NotePlan plan)
+        {
+            Properties.Activated(plan);
+        }
 
+        public void Launch()
+        {
+            if (!Properties.IsValid)
+            {
+                Debug.LogError($"このノーツコントローラーはActivateされていません。\n先に{nameof(Activated)}を呼んでください");
+                return;
+            }
+            
+            Properties.ChangeState(this,MoveState);
+        }
+
+        private void Update()
+        {
+            Properties.State?.OnUpdate(this);
+        }
+
+        public void OnReturn()
+        {
+            Properties.Clear();
+        }
     }
 
 
