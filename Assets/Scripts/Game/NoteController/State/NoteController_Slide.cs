@@ -69,7 +69,7 @@ namespace Game
                 var gap = Mathf.Abs(currentPos.x - touchPos.x);
 
                 // 指がゆびがオーツオブジェクト上にあるか (猶予 + オブジェクトサイズ)
-                var onNote = gap < Settings.Instance.NoteSlideTolerance + 1;
+                var onNote = gap < (Settings.Instance.NoteSlideTolerance + 1)/2;
 
                 if (onNote)
                 {

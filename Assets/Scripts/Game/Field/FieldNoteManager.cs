@@ -41,9 +41,12 @@ namespace Game
 
             // タッチ位置がField上でない場合は何もしない
             if (!ok) return;
+            
+            // realtimeをaudioTimeに変換
+            int audioTime = (int)(TimeCalculator.Instance.GetBeatTime((float)finger.lastTouch.time)* 1000) ;
 
             // 判定すべきNoteControllerを探す
-            var target = TargetNoteFinder.Find(ControllersOnField, beatPos.x, (int)(finger.lastTouch.time * 1000));
+            var target = TargetNoteFinder.Find(ControllersOnField, beatPos.x, audioTime);
 
             // 見つかればFingerを渡す
             if (target != null) target.AddFinger(finger);

@@ -6,9 +6,12 @@ namespace Game
     public static class TargetNoteFinder
     {
         /// <summary>
-        ///     位置と時間的に最も適切なノーツを見つける
+        /// 位置と時間的に最も適切なノーツを見つける
         /// </summary>
-        /// <param name="finger"></param>
+        /// <param name="controllersOnField">フィールド上の全てのノーツ</param>
+        /// <param name="posX">beat位置</param>
+        /// <param name="beatTime">beat時間(audioSource時間)</param>
+        /// <returns></returns>
         public static NoteController Find(HashSet<NoteController> controllersOnField, float posX, int beatTime)
         {
             // 今回のタッチに対し、最適なターゲットを探し、この変数に代入していく
