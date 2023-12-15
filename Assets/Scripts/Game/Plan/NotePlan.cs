@@ -42,15 +42,16 @@ namespace Game.Plan
         public float Bpm { get; }
 
         /// <summary>
-        ///     子ノーツのId
+        ///     子ノーツのPlan
+        ///     nullの時は通常のーつ
         /// </summary>
-        public int? ChildNote { get; private set; }
+        public NotePlan ChildNote { get; private set; }
 
         /// <summary>
         ///     子ノーツを設定する
         /// </summary>
         /// <param name="childId"></param>
-        public void SetChild(int childId)
+        public void SetChild(NotePlan childId)
         {
             ChildNote = childId;
         }

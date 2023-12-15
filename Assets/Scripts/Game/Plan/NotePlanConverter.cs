@@ -51,7 +51,7 @@ namespace Game.Plan
                 foreach (var child in note.notes)
                 {
                     var childPlan = CreatePlan(child);
-                    parent.SetChild(childPlan.NoteId);
+                    parent.SetChild(childPlan);
                     parent = childPlan;
                 }
             }
