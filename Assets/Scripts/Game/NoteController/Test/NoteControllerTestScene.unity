@@ -152,9 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e48820b409484843ac2d7354329edc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chartId: 8
+  chartId: 13
   spawnIndex: 3
   blockSize: 7
+  noteId: 1
   noteController: {fileID: 526713279}
   audioSource: {fileID: 1660726798}
 --- !u!4 &243024591
@@ -390,6 +391,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1093174382974262191, guid: 9b550e2224a0541dc89419753c08e6b9, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4198629615589961821, guid: 9b550e2224a0541dc89419753c08e6b9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -430,9 +435,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4234016393987636617, guid: 9b550e2224a0541dc89419753c08e6b9, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6525952697886737408, guid: 9b550e2224a0541dc89419753c08e6b9, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7415003838773283992, guid: 9b550e2224a0541dc89419753c08e6b9, type: 3}
       propertyPath: m_Name
       value: Field
+      objectReference: {fileID: 0}
+    - target: {fileID: 7415003838773283992, guid: 9b550e2224a0541dc89419753c08e6b9, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9195719507540552318, guid: 9b550e2224a0541dc89419753c08e6b9, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

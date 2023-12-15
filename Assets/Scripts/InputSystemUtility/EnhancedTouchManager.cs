@@ -7,6 +7,7 @@ namespace InputSystemUtility
 {
     public class EnhancedTouchManager : MonoSingleton<EnhancedTouchManager>
     {
+        private readonly Subject<Finger> onFingerUp = new();
 
         /********************* 通知用プロパティ ***********************/
         /// <summary>
@@ -27,8 +28,6 @@ namespace InputSystemUtility
         ///     指が離されたことを通知
         /// </summary>
         public IObservable<Finger> OnFingerUp => onFingerUp;
-        
-        private Subject<Finger> onFingerUp = new();
         /*************************************************************/
 
 
