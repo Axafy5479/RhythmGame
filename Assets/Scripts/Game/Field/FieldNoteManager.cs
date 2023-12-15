@@ -11,11 +11,6 @@ namespace Game
         /// </summary>
         private HashSet<NoteController> ControllersOnField { get; } = new();
 
-        private void Update()
-        {
-            RemoveOverlookedNote();
-        }
-
         /// <summary>
         ///フィールド上に存在するノーツとして追加
         /// 
@@ -33,19 +28,6 @@ namespace Game
 
             // コレクションに追加
             ControllersOnField.Add(noteController);
-        }
-
-        /// <summary>
-        ///     ノーツがMissの時間外かつ画面外に出た時、そのノーツを削除する
-        /// </summary>
-        private void RemoveOverlookedNote()
-        {
-            var time = TimeCalculator.Instance.GetTime();
-
-            foreach (var noteController in ControllersOnField)
-            {
-
-            }
         }
 
         /// <summary>
