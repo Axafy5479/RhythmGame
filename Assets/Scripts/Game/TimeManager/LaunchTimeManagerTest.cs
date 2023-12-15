@@ -1,4 +1,3 @@
-using System.Linq;
 using Chart;
 using Game.Plan;
 using UniRx;

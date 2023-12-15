@@ -62,7 +62,7 @@ namespace Game
         {
             List<(int time, int noteId)> timesToNotify =
                 info.GetPlanMap().Select(n => (n.Value.LaunchTime, n.Value.NoteId)).ToList();
-            
+
             // 射出時間順に並べ替え
             timesToNotify.Sort((a, b) => a.time - b.time);
 

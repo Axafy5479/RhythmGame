@@ -9,6 +9,12 @@ namespace Game
 
         private RealTime_AudioTime_Relation real_audio_relation;
 
+        public void Initialize(GameInfo gameInfo)
+        {
+            audioSource = GetComponent<AudioSource>();
+            audioSource.clip = gameInfo.GetChart().Clip;
+        }
+
         /// <summary>
         ///     楽曲を(続きから)再生する
         /// </summary>
@@ -75,12 +81,6 @@ namespace Game
             {
                 return AudioTime + realTime - RealTime;
             }
-        }
-
-        public void Initialize(GameInfo gameInfo)
-        {
-            audioSource = this.GetComponent<AudioSource>();
-            audioSource.clip = gameInfo.GetChart().Clip;
         }
     }
 }
