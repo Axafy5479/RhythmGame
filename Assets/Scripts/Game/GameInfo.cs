@@ -13,7 +13,7 @@ using UnityEngine;
 [Serializable]
 public class GameInfo
 {
-    [SerializeField] private int musicId,blockNumber;
+    [SerializeField] private int musicId, blockNumber;
     [SerializeField] private Course course;
     [SerializeField] private bool isAuto, isTutorial;
 
@@ -53,10 +53,10 @@ public class GameInfo
     public bool IsTutorial => isTutorial;
 
     /// <summary>
-    /// レーン数
+    ///     レーン数
     /// </summary>
     public int BlockNumber => blockNumber;
-    
+
     private Dictionary<int, NotePlan> NotePlanMap { get; set; }
 
     /// <summary>
@@ -69,7 +69,7 @@ public class GameInfo
     }
 
     /// <summary>
-    /// NotePlanのコレクションを取得する
+    ///     NotePlanのコレクションを取得する
     /// </summary>
     /// <returns></returns>
     public Dictionary<int, NotePlan> GetPlanMap()

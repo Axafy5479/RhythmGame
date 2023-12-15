@@ -5,7 +5,7 @@ namespace Game
     /// <summary>
     ///     盤面上のサイズ調節や、ノーツの生成位置を取得するクラス
     /// </summary>
-    public class Field : MonoSingleton<Field>,INeedInitializing
+    public class Field : MonoSingleton<Field>, INeedInitializing
     {
         [SerializeField] private Transform fieldTrn, judgeLine, spawnTrn;
 
