@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game
 {
-    public class LaunchTimeManager : MonoBehaviour
+    public class LaunchTimeManager : MonoBehaviour, INeedInitializing
     {
         [SerializeField] private AudioSource audioSource;
 
@@ -57,9 +57,12 @@ namespace Game
         /// <summary>
         ///     初期化
         /// </summary>
-        /// <param name="timesToNotify">いつ、どのノーツを射出すべきかのリスト</param>
-        public void Initialize(List<(int time, int noteId)> timesToNotify)
+        /// <param name="info">ゲーム設定</param>
+        public void Initialize(GameInfo info)
         {
+            List<(int time, int noteId)> timesToNotify =
+                info.GetPlanMap().Select(n => (n.Value.LaunchTime, n.Value.NoteId)).ToList();
+            
             // 射出時間順に並べ替え
             timesToNotify.Sort((a, b) => a.time - b.time);
 

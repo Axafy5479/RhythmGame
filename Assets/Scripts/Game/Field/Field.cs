@@ -5,7 +5,7 @@ namespace Game
     /// <summary>
     ///     盤面上のサイズ調節や、ノーツの生成位置を取得するクラス
     /// </summary>
-    public class Field : MonoSingleton<Field>
+    public class Field : MonoSingleton<Field>,INeedInitializing
     {
         [SerializeField] private Transform fieldTrn, judgeLine, spawnTrn;
 
@@ -21,18 +21,18 @@ namespace Game
         ///     フィールドの初期化
         /// </summary>
         /// <param name="blockNum">レーン数</param>
-        public void Initialize(int blockNum)
+        public void Initialize(GameInfo info)
         {
             // レーン数
-            BlockNum = blockNum;
+            BlockNum = info.BlockNumber;
 
             // フィールドのサイズを調節する
             var scaleField = fieldTrn.localScale;
-            fieldTrn.localScale = new Vector3(blockNum, scaleField.y, scaleField.z);
+            fieldTrn.localScale = new Vector3(BlockNum, scaleField.y, scaleField.z);
 
             // 判定線のサイズを調節する
             var scaleLine = judgeLine.localScale;
-            judgeLine.localScale = new Vector3(blockNum, scaleLine.y, scaleLine.z);
+            judgeLine.localScale = new Vector3(BlockNum, scaleLine.y, scaleLine.z);
 
             // プレイヤーのタッチ位置から、フィールドのどこがタッチされたかを計算する際に
             // Rayを飛ばして計算する。

@@ -2,16 +2,12 @@ using UnityEngine;
 
 namespace Game
 {
-    public class TimeCalculator : MonoSingleton<TimeCalculator>
+    [RequireComponent(typeof(AudioSource))]
+    public class TimeCalculator : MonoSingleton<TimeCalculator>, INeedInitializing
     {
-        [SerializeField] private AudioSource audioSource;
+        private AudioSource audioSource;
 
         private RealTime_AudioTime_Relation real_audio_relation;
-
-        private void Start()
-        {
-            Stop();
-        }
 
         /// <summary>
         ///     楽曲を(続きから)再生する
@@ -79,6 +75,12 @@ namespace Game
             {
                 return AudioTime + realTime - RealTime;
             }
+        }
+
+        public void Initialize(GameInfo gameInfo)
+        {
+            audioSource = this.GetComponent<AudioSource>();
+            audioSource.clip = gameInfo.GetChart().Clip;
         }
     }
 }
