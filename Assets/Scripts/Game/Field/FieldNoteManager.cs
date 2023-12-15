@@ -1,43 +1,33 @@
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine.InputSystem.EnhancedTouch;
 
 namespace Game
 {
     public class FieldNoteManager : MonoSingleton<FieldNoteManager>
     {
-        public HashSet<NoteController> ControllersOnField { get; } = new();
-
-
-        private void Update()
-        {
-            RemoveOverlookedNote();
-        }
+        /// <summary>
+        /// フィールド上に存在するノーツ
+        /// </summary>
+        private HashSet<NoteController> ControllersOnField { get; } = new();
 
         /// <summary>
-        ///     ノーツがMissの時間外かつ画面外に出た時、そのノーツを削除する
+        ///フィールド上に存在するノーツとして追加
+        /// 
+        ///     noteControllerの寿命を監視
+        ///     寿命が切れたらControllersOnFieldから削除
         /// </summary>
-        private void RemoveOverlookedNote()
+        /// <param name="noteController"></param>
+        public void AddNote(NoteController noteController)
         {
-            var time = TimeCalculator.Instance.GetTime();
+            noteController.Properties.IsValid
+                .Where(b => !b) // 寿命が切れた通知のみ監視
+                .First() // 一度だけでOK
+                .Subscribe(_ => ControllersOnField.Remove(noteController))
+                .AddTo(this);
 
-            ControllersOnField.RemoveWhere(noteController =>
-            {
-                // 本来叩くべき時間からのズレを計算 (このプロジェクトでは、遅い場合に負の数になるよう統一している)
-                var delta = noteController.Properties.Plan.BeatTime - time;
-
-                // deltaは遅いときに負なので、マイナスをつけて正にする。
-                // Missの限界値より小さい時は削除しない
-                if (Settings.Instance.JudgeTime(JudgeEnum.Miss) > -delta) return false;
-
-                // 画面内の場合は削除しない
-                if (noteController.NoteSprite.isVisible) return false;
-
-                // 画面外かつMissの限界も超えたため削除対象
-                // 判定
-                noteController.Overlooked();
-
-                return true;
-            });
+            // コレクションに追加
+            ControllersOnField.Add(noteController);
         }
 
         /// <summary>

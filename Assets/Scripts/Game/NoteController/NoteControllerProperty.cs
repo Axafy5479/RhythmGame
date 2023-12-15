@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Game.Plan;
+using UniRx;
 using UnityEngine.InputSystem.EnhancedTouch;
 
 namespace Game
@@ -17,6 +18,11 @@ namespace Game
         ///     このノーツが出した判定
         /// </summary>
         public JudgeEnum Judge { get; set; }
+
+        /// <summary>
+        ///     Beat時間のエラー
+        /// </summary>
+        public int GapTime { get; set; } = int.MaxValue;
 
         /// <summary>
         ///     このノーツの振る舞い
@@ -37,7 +43,9 @@ namespace Game
         ///     このオブジェクトが有効であるか
         ///     (プールの中にいるならfalse、取り出されているならtrue)
         /// </summary>
-        public bool IsValid { get; private set; }
+        public ReactiveProperty<bool> IsValid { get; } = new(false);
+
+        public NoteController ChildNote { get; set; }
 
         /// <summary>
         ///     ノーツの振る舞いを設定し、ノーツとして動く状態にする
@@ -46,7 +54,7 @@ namespace Game
         public void Activated(NotePlan plan)
         {
             Plan = plan;
-            IsValid = true;
+            IsValid.Value = true;
         }
 
         /// <summary>
@@ -74,10 +82,12 @@ namespace Game
         public void Clear(NoteController controller)
         {
             ChangeState(controller, null);
-            IsValid = false;
+            IsValid.Value = false;
             Judge = JudgeEnum.None;
             Plan = null;
             Fingers.Clear();
+            ChildNote = null;
+            GapTime = int.MaxValue;
         }
     }
 }

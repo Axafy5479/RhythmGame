@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Game.Plan;
 using UnityEngine;
 using UnityEngine.InputSystem.EnhancedTouch;
@@ -8,6 +10,7 @@ namespace Game
     public class NoteController : MonoBehaviour
     {
         [SerializeField] private SpriteRenderer noteSprite;
+        [SerializeField] private LongBand longBand;
 
         private Transform trn;
 
@@ -15,6 +18,11 @@ namespace Game
         ///     NoteControllerの画像コンポーネント
         /// </summary>
         public SpriteRenderer NoteSprite => noteSprite;
+
+        /// <summary>
+        ///     Longノーツの節同士を結ぶ帯
+        /// </summary>
+        public LongBand LongBand => longBand;
 
         /// <summary>
         ///     NoteControllerのプロパティを集めたクラス
@@ -49,6 +57,9 @@ namespace Game
             }
         }
 
+        /// <summary>
+        ///     このノーツをPoolに返却する
+        /// </summary>
         public Action ReturnToPool { get; set; }
 
         private void Update()
@@ -68,12 +79,34 @@ namespace Game
         }
 
         /// <summary>
+        ///     このノーツに子ノーツを設定する
+        /// </summary>
+        /// <param name="backNote"></param>
+        public void SetChildNote(NoteController backNote)
+        {
+            Properties.ChildNote = backNote;
+            longBand.SetChildNote(backNote);
+        }
+
+        private void TakeOverFingers(HashSet<Finger> fingers)
+        {
+            if (fingers.Any())
+            {
+                foreach (var finger in fingers) AddFinger(finger);
+            }
+            else
+            {
+                Judged(true);
+            }
+        }
+
+        /// <summary>
         ///     ノーツを流す、MoveStateにする
         /// </summary>
         public void Launch()
         {
             // Activateされていることを確認
-            if (!Properties.IsValid)
+            if (!Properties.IsValid.Value)
             {
                 Debug.LogError($"このノーツコントローラーはActivateされていません。\n先に{nameof(Activated)}を呼んでください");
                 return;
@@ -106,36 +139,25 @@ namespace Game
             else
             {
                 Debug.Log("ForDebugging");
-                OnReturn();
+                Judged(false);
                 Debug.Log("デバッグのため、OnReturn");
             }
         }
 
         /// <summary>
-        ///     見逃されたため、強制Miss
+        ///     判定が決まった際に呼ばれるメソッド
+        ///     判定を記録し、ノーツをプールに返す
         /// </summary>
-        public void Overlooked()
+        /// <param name="byChain">ロングノーツでミスをすると、1個後ろまで連鎖的にミスとなる。この「連鎖」で判定されたか否か</param>
+        public void Judged(bool byChain)
         {
-            OnReturn();
-        }
+            // 個ノーツがあり、チェーンによる判定でない場合、fingersを引き継ぐ
+            if (Properties.ChildNote is { } child && !byChain) child.TakeOverFingers(Properties.Fingers);
 
-        /// <summary>
-        ///     スライドが終了した際に呼ばれる
-        /// </summary>
-        /// <param name="ok">スライドノーツを適切にHoldし、終了した</param>
-        public void OnSlideEnd()
-        {
-            Debug.Log("スライド終了");
-            Debug.Log("デバッグのため、OnReturn");
-            OnReturn();
-        }
-
-        /// <summary>
-        ///     Poolに返すメソッド
-        /// </summary>
-        public void OnReturn()
-        {
+            // プロパティをリセット
             Properties.Clear(this);
+
+            // poolに返す
             ReturnToPool();
         }
     }

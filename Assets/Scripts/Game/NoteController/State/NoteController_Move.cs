@@ -38,14 +38,34 @@ namespace Game
 
         public override void OnUpdate(NoteController noteController)
         {
+            var currentTime = TimeCalculator.Instance.GetTime();
+            
             // 現在の位置を取得
             var currentPos = noteController.Trn.position;
 
             // 移動先の計算
-            var newZ = GetPosZByTime(TimeCalculator.Instance.GetTime());
+            var newZ = GetPosZByTime(currentTime);
 
             // 移動
             noteController.Trn.position = new Vector3(currentPos.x, currentPos.y, newZ);
+
+            CheckOutOfField(noteController, currentTime);
+        }
+
+        private void CheckOutOfField(NoteController noteController, int time)
+        {
+            // 本来叩くべき時間からのズレを計算 (このプロジェクトでは、遅い場合に負の数になるよう統一している)
+            var delta = noteController.Properties.Plan.BeatTime - time;
+
+            // deltaは遅いときに負なので、マイナスをつけて正にする。
+            // Missの限界値より小さい時は削除しない
+            if (Settings.Instance.JudgeTime(JudgeEnum.Miss) > -delta) return;
+
+            // 画面内の場合は削除しない
+            if (noteController.NoteSprite.isVisible) return;
+
+            // 画面外かつMissの限界も超えたため削除対象
+            noteController.Judged(false);
         }
 
         public override void OnExit(NoteController noteController, NoteController_State nextState)
