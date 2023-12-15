@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using Game;
-using UnityEngine;
 using UniRx;
 using UniRx.Toolkit;
-
+using UnityEngine;
 
 public class NotePool : ObjectPool<NoteController>
 {
@@ -13,11 +10,11 @@ public class NotePool : ObjectPool<NoteController>
         PreloadAsync(number, 10).Subscribe();
         NoteParent = new GameObject("_noteroot").transform;
     }
-    
+
     private Transform NoteParent { get; }
 
     /// <summary>
-    /// インスタンスの生成
+    ///     インスタンスの生成
     /// </summary>
     /// <returns></returns>
     protected override NoteController CreateInstance()

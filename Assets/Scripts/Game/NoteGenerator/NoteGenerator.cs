@@ -1,44 +1,76 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Game.Plan;
-using UnityEngine;
 using UniRx;
-using UniRx.Toolkit;
+using UnityEngine;
 
 namespace Game
 {
+    /// <summary>
+    /// LaunchTimeManagerの通知を受けて、ノーツを生成するクラス
+    /// </summary>
     [RequireComponent(typeof(LaunchTimeManager))]
-    public class NoteGenerator : MonoBehaviour,INeedInitializing
+    public class NoteGenerator : MonoBehaviour, INeedInitializing
     {
-        private Dictionary<int,NotePlan> NotePlanMap { get; set; }
+        /// <summary>
+        /// NoteControllerのオブジェクトプール
+        /// </summary>
         private NotePool noteControllerPool;
+        
+        /// <summary>
+        /// idとNotePlanの辞書
+        /// (LaunchTimeManagerからidが通知されるため、これに紐づくPlanを用いてノーツを初期化する)
+        /// </summary>
+        private Dictionary<int, NotePlan> NotePlanMap { get; set; }
 
         private void Awake()
         {
-            noteControllerPool = new(50);
+            // プールを作成
+            noteControllerPool = new NotePool(50);
         }
 
         public void Initialize(GameInfo gameInfo)
         {
+            // id_Plan の辞書を作成
             NotePlanMap = gameInfo.GetPlanMap();
-            var launchTime = this.GetComponent<LaunchTimeManager>();
+            
+            // LaunchTimeManagerの通知を購読
+            var launchTime = GetComponent<LaunchTimeManager>();
             launchTime.OnLaunchTime.Subscribe(Launch);
         }
 
+        /// <summary>
+        /// LaunchTimeManagerの通知を受けて実行するメソッド
+        /// </summary>
+        /// <param name="noteId"></param>
         private void Launch(int noteId)
         {
+
             var plan = NotePlanMap[noteId];
+            while (plan!=null)
+            {
+                launch(plan);
+                plan = plan.ChildNote;
+            }
+        }
+
+        private void launch(NotePlan plan)
+        {
+            // プールからNoteControllerを取り出す
             var controller = noteControllerPool.Rent();
+                
+            // NoteControllerにPlanを設定
             controller.Activated(plan);
+                
+            // Spawn位置に設定
             controller.Trn.position = Field.Instance.GetSpawnPos(plan.Block);
+
+            // 発射
             controller.Launch();
             
 #if UNITY_EDITOR
+            // デバッグしやすいように、オブジェクトの名前としてPlanを設定
             controller.name = $"{plan}";
 #endif
         }
-
-
     }
 }
