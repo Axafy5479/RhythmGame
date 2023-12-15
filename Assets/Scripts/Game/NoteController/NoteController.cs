@@ -96,7 +96,8 @@ namespace Game
             }
             else
             {
-                Judged(true);
+                Properties.SetJudge(null);
+                ReturnNote(true);
             }
         }
 
@@ -129,6 +130,8 @@ namespace Game
 
             // 今の状態がMoveStateではない場合、状態遷移はしない
             if (Properties.State is not NoteController_Move) return;
+            
+            Properties.SetJudge(finger);
 
             // 子ノーツの有無で場合わけ
             if (Properties.Plan.ChildPlan != null)
@@ -138,10 +141,14 @@ namespace Game
             }
             else
             {
-                Debug.Log("ForDebugging");
-                Judged(false);
-                Debug.Log("デバッグのため、OnReturn");
+                ReturnNote(false);
             }
+        }
+
+        public void ForceMiss()
+        {
+            Properties.SetJudge(null);
+            ReturnNote(false);
         }
 
         /// <summary>
@@ -149,7 +156,7 @@ namespace Game
         ///     判定を記録し、ノーツをプールに返す
         /// </summary>
         /// <param name="byChain">ロングノーツでミスをすると、1個後ろまで連鎖的にミスとなる。この「連鎖」で判定されたか否か</param>
-        public void Judged(bool byChain)
+        public void ReturnNote(bool byChain)
         {
             // 個ノーツがあり、チェーンによる判定でない場合、fingersを引き継ぐ
             if (Properties.ChildNote is { } child && !byChain) child.TakeOverFingers(Properties.Fingers);

@@ -43,7 +43,7 @@ namespace Game
             if (!ok) return;
             
             // realtimeをaudioTimeに変換
-            int audioTime = (int)(TimeCalculator.Instance.GetBeatTime((float)finger.lastTouch.time)* 1000) ;
+            int audioTime = TimeCalculator.Instance.GetBeatTime(finger);
 
             // 判定すべきNoteControllerを探す
             var target = TargetNoteFinder.Find(ControllersOnField, beatPos.x, audioTime);

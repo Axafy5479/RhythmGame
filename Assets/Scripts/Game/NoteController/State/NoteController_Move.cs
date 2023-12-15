@@ -65,7 +65,7 @@ namespace Game
             if (noteController.NoteSprite.isVisible) return;
 
             // 画面外かつMissの限界も超えたため削除対象
-            noteController.Judged(false);
+            noteController.ForceMiss();
         }
 
         public override void OnExit(NoteController noteController, NoteController_State nextState)

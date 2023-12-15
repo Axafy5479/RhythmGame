@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem.EnhancedTouch;
 
 namespace Game
 {
@@ -46,9 +47,11 @@ namespace Game
         /// </summary>
         /// <param name="beat_time_as_realtime"></param>
         /// <returns></returns>
-        public float GetBeatTime(float beat_time_as_realtime)
+        public int GetBeatTime(Finger finger)
         {
-            return real_audio_relation.GetAudioTimeFromRealTime(beat_time_as_realtime);
+            double realTime = finger.lastTouch.time;
+            float audioTime = real_audio_relation.GetAudioTimeFromRealTime(realTime);
+            return (int)(audioTime * 1000);
         }
 
         /// <summary>
@@ -77,9 +80,9 @@ namespace Game
             /// </summary>
             /// <param name="realTime"></param>
             /// <returns></returns>
-            public float GetAudioTimeFromRealTime(float realTime)
+            public float GetAudioTimeFromRealTime(double realTime)
             {
-                return AudioTime + realTime - RealTime;
+                return (float)(AudioTime + realTime - RealTime);
             }
         }
     }
