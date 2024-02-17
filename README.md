@@ -1,1 +1,12 @@
 # RhythmGame
+私が[東方競争曲](th-beat.net)を開発を通して学んだ、リズムゲームの実装方法を実践したリポジトリです。例えばロングノーツのスライドは、設計ミスにより東方競争曲では実装できていません。このような失敗から得た気づきをまとめています。
+
+# 使用したソフトウエア、ライブラリ等
+- [UniRx](https://github.com/neuecc/UniRx)
+- [UniTask](https://github.com/Cysharp/UniTask)
+- [LitJson](https://github.com/LitJSON/litjson)
+- [DankagLike NoteEditor](https://dankag-like.web.app/noteeditor)
+
+# 東方競争曲は今後もアップデートを続けていく予定です!
+![](https://private-user-images.githubusercontent.com/48946038/305632360-e67b74aa-3a94-4a75-abbd-14bc4ce6dd70.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MDgxNjA4MTksIm5iZiI6MTcwODE2MDUxOSwicGF0aCI6Ii80ODk0NjAzOC8zMDU2MzIzNjAtZTY3Yjc0YWEtM2E5NC00YTc1LWFiYmQtMTRiYzRjZTZkZDcwLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDAyMTclMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwMjE3VDA5MDE1OVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTIzM2I5OWE2NmQ5OTI3YzJmYTVlMzQ1MmU0MjRhYTllYzNhMjk0MDk4ZWU4Mzg4MjZlMjgwZTZjYmU3ZDQ5MTEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.SbqOyHiWS2Jb3NZQ1NE9dxj2jGfjKvvKueoVpMpAXSA)
+(東方競争曲のリポジトリはデータの暗号化のプロセス等が記述されているため、公開はできません。)
