@@ -92,7 +92,7 @@ namespace Game
         {
             if (fingers.Any())
             {
-                foreach (var finger in fingers) AddFinger(finger);
+                foreach (var finger in fingers) AddFinger(finger,true);
             }
             else
             {
@@ -123,7 +123,7 @@ namespace Game
         ///     子ノーツが存在している時は、子ノーツの位置まで移動
         /// </summary>
         /// <param name="finger"></param>
-        public void AddFinger(Finger finger)
+        public void AddFinger(Finger finger, bool takeOvered = false)
         {
             // 指の追加
             Properties.Fingers.Add(finger);
@@ -131,7 +131,7 @@ namespace Game
             // 今の状態がMoveStateではない場合、状態遷移はしない
             if (Properties.State is not NoteController_Move) return;
             
-            Properties.SetJudge(finger);
+            Properties.SetJudge(finger,takeOvered);
 
             // 子ノーツの有無で場合わけ
             if (Properties.Plan.ChildPlan != null)

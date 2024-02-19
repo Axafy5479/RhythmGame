@@ -74,7 +74,7 @@ namespace Game
             State = newState;
         }
 
-        public void SetJudge(Finger finger)
+        public void SetJudge(Finger finger, bool isPerfect = false)
         {
             if (finger == null)
             {
@@ -82,9 +82,17 @@ namespace Game
             }
             else
             {
-                int time = TimeCalculator.Instance.GetBeatTime(finger);
-                GapTime = Plan.BeatTime - time;
+                if (!isPerfect)
+                {
+                    int time = TimeCalculator.Instance.GetBeatTime(finger);
+                    GapTime = Plan.BeatTime - time;
+                }
+                else
+                {
+                    GapTime = 0;
+                }
                 Judge = Settings.Instance.GetJudge(GapTime);
+
             }
 
             ResultManager.Instance.AddResult(Plan.NoteId,Judge,GapTime);
